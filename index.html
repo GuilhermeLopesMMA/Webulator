@@ -1,12 +1,110 @@
-<!DOCTYPE html>
-<html lang="en">
+<!doctype html>
+<html lang="pt-PT">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>>Webulator</title>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <title>Cartucheira</title>
+  <meta name="description" content="Emuladores de consolas retro no browser: Game Boy Advance, SNES, Mega Drive, PlayStation e mais.">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin>
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:ital,wdth,wght@0,62..125,400..900;1,62..125,400..900&family=Atkinson+Hyperlegible:ital,wght@0,400;0,700;1,400&family=Silkscreen&display=swap">
+  <link rel="stylesheet" href="estilo.css">
 </head>
 <body>
-    insira uma rom
-    <input type="file" name="fiel" id="file">
+  <div class="pagina">
+    <header class="topo">
+      <div class="marca">
+        <h1 class="logo">Cartucheira</h1>
+        <p class="faixa"><span>Emulação no browser · 12 sistemas</span></p>
+      </div>
+      <button type="button" class="btn primario" id="btn-carregar">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0-10L6 7m4-4 4 4M4 13v3h12v-3" /></svg>
+        Carregar ROM
+      </button>
+    </header>
+
+    <main>
+      <section class="ranhura" id="ranhura" aria-labelledby="ranhura-titulo">
+        <div class="ranhura-boca" aria-hidden="true"></div>
+        <div class="ranhura-texto">
+          <h2 id="ranhura-titulo">Arrasta uma ROM para esta página</h2>
+          <p>O sistema é detetado pela extensão. As ROMs ficam guardadas neste browser e não são enviadas para nenhum servidor.</p>
+        </div>
+      </section>
+
+      <section class="seccao" aria-labelledby="bib-titulo">
+        <div class="seccao-cab">
+          <h2 id="bib-titulo">Biblioteca</h2>
+          <span class="contagem" id="bib-contagem">0 jogos</span>
+          <label class="pesquisa" for="pesquisa">
+            <span class="sr">Procurar na biblioteca</span>
+            <svg viewBox="0 0 20 20" aria-hidden="true"><circle cx="8.5" cy="8.5" r="5" /><path d="m12.5 12.5 4 4" /></svg>
+            <input type="search" id="pesquisa" placeholder="Procurar jogo" autocomplete="off">
+          </label>
+        </div>
+        <ul class="lista-jogos" id="lista-jogos"></ul>
+        <div class="vazio" id="bib-vazia" hidden>
+          <p class="vazio-titulo">A biblioteca está vazia</p>
+          <p>Carrega um ficheiro .gba, .sfc, .nes ou outro dos formatos abaixo. Da próxima vez que abrires a página, continua aqui.</p>
+        </div>
+        <p class="vazio sem-resultados" id="sem-resultados" hidden>Nenhum jogo com esse nome.</p>
+      </section>
+
+      <section class="seccao" aria-labelledby="sis-titulo">
+        <div class="seccao-cab">
+          <h2 id="sis-titulo">Sistemas</h2>
+          <span class="contagem">ecrãs à escala entre si</span>
+        </div>
+        <div class="grelha-sistemas" id="grelha-sistemas"></div>
+      </section>
+    </main>
+
+    <footer class="rodape">
+      <p>Emulação feita pelo <a href="https://emulatorjs.org" target="_blank" rel="noopener">EmulatorJS</a> <span id="versao-ejs"></span> com cores do RetroArch (GPL-3.0). Usa ROMs de jogos que tens.</p>
+    </footer>
+  </div>
+
+  <div class="leitor" id="leitor" hidden>
+    <div class="leitor-barra">
+      <button type="button" class="btn fantasma" id="btn-sair">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M12 4 6 10l6 6" /></svg>
+        Biblioteca
+      </button>
+      <div class="leitor-titulo">
+        <span class="chip" id="leitor-sistema"></span>
+        <span class="leitor-nome" id="leitor-nome"></span>
+      </div>
+    </div>
+    <div class="leitor-palco" id="palco"></div>
+  </div>
+
+  <dialog class="dialogo" id="dlg-sistema" aria-labelledby="dlg-sistema-titulo">
+    <form method="dialog">
+      <h2 id="dlg-sistema-titulo">De que sistema é?</h2>
+      <p class="dialogo-ficheiro" id="dlg-sistema-ficheiro"></p>
+      <div class="opcoes-sistema" id="opcoes-sistema"></div>
+      <div class="dialogo-acoes">
+        <button type="submit" class="btn fantasma" value="">Cancelar</button>
+      </div>
+    </form>
+  </dialog>
+
+  <dialog class="dialogo" id="dlg-remover" aria-labelledby="dlg-remover-titulo">
+    <form method="dialog">
+      <h2 id="dlg-remover-titulo">Remover da biblioteca?</h2>
+      <p id="dlg-remover-texto"></p>
+      <div class="dialogo-acoes">
+        <button type="submit" class="btn fantasma" value="nao">Cancelar</button>
+        <button type="submit" class="btn perigo" value="sim">Remover</button>
+      </div>
+    </form>
+  </dialog>
+
+  <input type="file" id="input-rom" multiple hidden>
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="sistemas.js"></script>
+  <script src="app.js"></script>
 </body>
 </html>
